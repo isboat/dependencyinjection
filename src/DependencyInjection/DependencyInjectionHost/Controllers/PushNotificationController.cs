@@ -15,7 +15,7 @@ namespace DependencyInjectionHost.Controllers
             this.reminderServices = reminderServices;
         }
 
-        [HttpGet(Name = "get")]
+        [HttpGet]
         public IActionResult Get()
         {
             var service = reminderServices.FirstOrDefault(x => x.GetType() == typeof(PushNotificationReminderService));

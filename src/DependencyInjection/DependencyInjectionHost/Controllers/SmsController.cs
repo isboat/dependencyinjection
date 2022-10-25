@@ -19,7 +19,7 @@ namespace DependencyInjectionHost.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var emailReminderService = reminderServiceFactory.GetInstance("Email");
+            var emailReminderService = reminderServiceFactory.GetInstance("SMS");
             if (emailReminderService != null)
             {
                 emailReminderService.SendReminder();

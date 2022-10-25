@@ -16,10 +16,10 @@ namespace DependencyInjectionHost.Controllers
         }
 
 
-        [HttpGet(Name = "get")]
+        [HttpGet]
         public IActionResult Get()
         {
-            var service = resolver("SMS");
+            var service = resolver("Email");
             service.SendReminder();
             return Ok();
         }
