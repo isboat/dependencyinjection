@@ -8,24 +8,24 @@ namespace DependencyInjectionHost.Controllers
     [ApiController]
     public class PushNotificationController : ControllerBase
     {
-        // This should be email service implementation
-        private readonly IReminderService reminderService;
+        private readonly IEnumerable<IReminderService> reminderServices;
 
-        public PushNotificationController(IReminderService reminderService)
+        public PushNotificationController(IEnumerable<IReminderService> reminderServices)
         {
-            this.reminderService = reminderService;
+            this.reminderServices = reminderServices;
         }
 
-        // POST api/<SmsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpGet(Name = "get")]
+        public IActionResult Get()
         {
-        }
+            var service = reminderServices.FirstOrDefault(x => x.GetType() == typeof(PushNotificationReminderService));
 
-        // DELETE api/<SmsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            if (service != null)
+            {
+                service.SendReminder();
+            }
+
+            return Ok();
         }
     }
 }

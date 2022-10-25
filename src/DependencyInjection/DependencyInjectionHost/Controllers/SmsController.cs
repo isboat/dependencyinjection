@@ -8,24 +8,24 @@ namespace DependencyInjectionHost.Controllers
     [ApiController]
     public class SmsController : ControllerBase
     {
-        // This should be email service implementation
-        private readonly IReminderService reminderService;
+        private readonly IReminderServiceFactory reminderServiceFactory;
 
-        public SmsController(IReminderService reminderService)
+        public SmsController(IReminderServiceFactory reminderServiceFactory)
         {
-            this.reminderService = reminderService;
+            this.reminderServiceFactory = reminderServiceFactory;
         }
 
-        // POST api/<SmsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
 
-        // DELETE api/<SmsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpGet]
+        public IActionResult Get()
         {
+            var emailReminderService = reminderServiceFactory.GetInstance("Email");
+            if (emailReminderService != null)
+            {
+                emailReminderService.SendReminder();
+            }
+
+            return Ok();
         }
     }
 }

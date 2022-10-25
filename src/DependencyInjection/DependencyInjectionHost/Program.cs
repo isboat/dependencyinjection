@@ -6,7 +6,22 @@ namespace DependencyInjectionHost
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+
+            // Option 1: Register three implementations
+            builder.Services.AddScoped<IReminderService, SmsReminderService>();
+            builder.Services.AddScoped<IReminderService, EmailReminderService>();
+            builder.Services.AddScoped<IReminderService, PushNotificationReminderService>();
+
+            // Option 2: Service Delegate
+            DependencyRegistrationBoostrapper.RegisterDependencies(builder.Services);
+
+            // Option 3 – Factory
+            DependencyRegistrationFactoryBoostrapper.RegisterDependencies(builder.Services);
+
+            // Option 4 – Individual Interfaces Deriving from Single Interface
+            builder.Services.AddScoped<ISmsReminderService, DerivedSmsReminderService>();
+            builder.Services.AddScoped<IEmailReminderService, DerivedEmailReminderService>();
+            builder.Services.AddScoped<IPushNotificationReminderService, DerivedPushNotificationReminderService>();
 
             builder.Services.AddControllers();
 
